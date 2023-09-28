@@ -214,13 +214,15 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
 
     @Override
     public void nextStory() {
-        if (counter + 1 >= storiesList.size()) {
-            dismissAllowingStateLoss();
-            return;
+        if (storiesList != null) {
+            if (counter + 1 >= storiesList.size()) {
+                dismissAllowingStateLoss();
+                return;
+            }
+            binding.viewPager.setCurrentItem(++counter, false);
+            binding.progressView.startStories(counter);
+            updateHeading();
         }
-        binding.viewPager.setCurrentItem(++counter, false);
-        binding.progressView.startStories(counter);
-        updateHeading();
     }
 
     @Override
