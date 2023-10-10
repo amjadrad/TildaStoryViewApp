@@ -5,11 +5,21 @@ import java.util.Date;
 
 public class MyStory implements Serializable {
 
+    enum StoryLinkType {
+        DANGER,
+        SUCCESS,
+        INFO,
+        LIGHT,
+        VLIGHT,
+        WARNING,
+        PRIMARY
+    }
+
     private String url;
-
     private Date date;
-
     private String description;
+    private StoryLink storyLink;
+
 
     public MyStory(String url, Date date, String description) {
         this.url = url;
@@ -20,6 +30,14 @@ public class MyStory implements Serializable {
     public MyStory(String url, Date date) {
         this.url = url;
         this.date = date;
+    }
+
+    public StoryLink getStoryLink() {
+        return storyLink;
+    }
+
+    public void setStoryLink(StoryLink storyLink) {
+        this.storyLink = storyLink;
     }
 
     public MyStory(String url) {

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ import ir.tildaweb.tildastoryview.StoryView;
 import ir.tildaweb.tildastoryview.callback.OnStoryChangedCallback;
 import ir.tildaweb.tildastoryview.callback.StoryClickListeners;
 import ir.tildaweb.tildastoryview.model.MyStory;
+import ir.tildaweb.tildastoryview.model.StoryLink;
 import ir.tildaweb.tildastoryviewapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private final String TAG = this.getClass().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +28,15 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String file = "https://mechanic.tildaweb.ir/public/upload/service_types/sample_service_type_yadak.jpg";
+        String file = "https://ipom.nazmenovin.com/upload/chats/file_16874734380721007106059_72039557.jpg";
 
         ArrayList<MyStory> myStories = new ArrayList<>();
         MyStory myStory = new MyStory(file);
-        MyStory myStory2 = new MyStory(file);
         MyStory myStory3 = new MyStory(file);
         myStories.add(myStory);
-        myStories.add(myStory2);
         myStories.add(myStory3);
-
+        myStories.add(myStory3);
+        myStories.add(myStory3);
 
         new StoryView.Builder(getSupportFragmentManager())
                 .setStoriesList(myStories)
@@ -49,13 +51,18 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
+                    public void onActionButtonClickListener(MyStory story) {
+                        Log.d(TAG, "onActionButtonClickListener: " + story.getStoryLink().getLink());
+                    }
+
+                    @Override
                     public void onTitleIconClickListener(int position) {
 
                     }
                 }).setOnStoryChangedCallback(new OnStoryChangedCallback() {
                     @Override
                     public void storyChanged(int position) {
-                        
+
                     }
 
                     @Override

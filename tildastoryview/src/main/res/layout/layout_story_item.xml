@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
@@ -8,28 +8,71 @@
     <ir.tildaweb.tildastoryview.utils.DynamicImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvDescription"
-        android:layout_width="0dp"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/relativeLayoutLoadingContainer"
+        android:layout_width="@dimen/_64sdp"
+        android:layout_height="@dimen/_64sdp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_vlight_rounded_default"
+        android:padding="@dimen/_8sdp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewLoading"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_loader"
+            app:tint="#555555" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:fontFamily="@font/iran_yekan_fa_regular"
-        android:textSize="18sp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/_8sdp"
         android:background="@drawable/story_description_background"
-        android:gravity="center"
-        android:visibility="gone"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:fontFamily="@font/iran_yekan_fa_regular"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_16sdp"
+            android:text="توضیح"
+            android:textColor="#000000"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:background="@drawable/bg_primary_pill_default"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/iran_yekan_fa_regular"
+            android:gravity="center"
+            android:padding="@dimen/_8sdp"
+            android:text="اینجا کلیک کنید."
+            android:textColor="@color/colorLight"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

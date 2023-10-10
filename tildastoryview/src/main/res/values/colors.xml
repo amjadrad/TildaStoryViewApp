@@ -6,4 +6,22 @@
 
     <color name="gray_scale">#8affffff</color>
     <color name="white">#fff</color>
+
+    <color name="colorLight">#ffffff</color>
+    <color name="colorLightSoft">#ffffff</color>
+    <color name="colorLight2">#eeeeee</color>
+    <color name="colorPrimary">#1b65cf</color>
+    <color name="colorPrimary1">#1b65cf</color>
+    <color name="colorPrimarySoft">#DDECFD</color>
+    <color name="colorAccent">#f84a91</color>
+    <color name="colorAccentSoft">#FADFEA</color>
+    <color name="colorSuccess">#00C853</color>
+    <color name="colorSuccessSoft">#BBEDDD</color>
+    <color name="colorDanger">#ee283c</color>
+    <color name="colorDangerSoft">#FAD2D6</color>
+    <color name="colorWarning">#ffad0a</color>
+    <color name="colorWarningSoft">#F8E9CC</color>
+    <color name="colorInformation">#d9dbe2</color>
+    <color name="colorInformationSoft">#eaecf3</color>
+
 </resources>

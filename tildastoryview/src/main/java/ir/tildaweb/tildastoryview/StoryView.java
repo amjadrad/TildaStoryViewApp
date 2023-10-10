@@ -1,7 +1,10 @@
 package ir.tildaweb.tildastoryview;
 
+import static ir.tildaweb.tildastoryview.utils.Utils.getDurationBetweenDates;
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -11,18 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,8 +40,6 @@ import ir.tildaweb.tildastoryview.progress.StoriesProgressView;
 import ir.tildaweb.tildastoryview.utils.PullDismissLayout;
 import ir.tildaweb.tildastoryview.utils.StoryViewHeaderInfo;
 import ir.tildaweb.tildastoryview.utils.ViewPagerAdapter;
-
-import static ir.tildaweb.tildastoryview.utils.Utils.getDurationBetweenDates;
 
 public class StoryView extends DialogFragment implements StoriesProgressView.StoriesListener,
         StoryCallbacks,
@@ -203,6 +204,22 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
         binding.progressView.pause();
     }
 
+    @Override
+    public void resumeStories() {
+        binding.progressView.resume();
+    }
+
+    @Override
+    public void waitForLoad() {
+        touchDown(0, 0);
+    }
+
+    @Override
+    public void mediaIsLoaded() {
+        waitForLoad();
+        touchUp();
+    }
+
     private void previousStory() {
         if (counter - 1 < 0) return;
         binding.viewPager.setCurrentItem(--counter, false);
@@ -232,6 +249,12 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
     }
 
     @Override
+    public void onActionButtonClickListener(MyStory story) {
+        if (storyClickListeners == null) return;
+        storyClickListeners.onActionButtonClickListener(story);
+    }
+
+    @Override
     public void onDestroy() {
         timerThread = null;
         storiesList = null;
@@ -257,7 +280,17 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
             binding.cardViewTitle.setVisibility(View.VISIBLE);
             if (getContext() == null) return;
             Glide.with(getContext())
-                    .load(storyHeaderInfo.getTitleIconUrl())
+                    .load(storyHeaderInfo.getTitleIconUrl()).addListener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
                     .into(binding.imageViewTitle);
         } else {
             binding.cardViewTitle.setVisibility(View.GONE);
@@ -306,7 +339,6 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
         binding.imageButtonClose.setVisibility(visibility);
         binding.progressView.setVisibility(visibility);
     }
-
 
     private void createTimer() {
         timerThread = new Thread(() -> {
@@ -365,6 +397,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
 
     @Override
     public void touchDown(float xValue, float yValue) {
+        Log.d(TAG, "touchDown: " + xValue + "_" + yValue);
         this.xValue = xValue;
         this.yValue = yValue;
         if (!isDownClick) {
@@ -374,6 +407,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
 
     @Override
     public void touchUp() {
+        Log.d(TAG, "touchUp: ");
         if (isDownClick && elapsedTime < 500) {
             stopTimer();
             if (((int) (height - yValue) <= 0.8 * height)) {
